@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lapbook Verde Interactivo Completo</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+</head>
+<body>
+
+  <div class="lapbook-main-container" id="lapbook-main">
+    
+    <!-- Portadas / Solapas Exteriores -->
+    <div class="lapbook-cover cover-left">
+      <div class="cover-design">
+        <img src="{{ url_for('static', filename='html.jpeg')}}" alt="HTML" style="width: 60px; height: auto; margin-bottom: 10px;">
+        <p>Toca para abrir las portadas</p>
+      </div>
+    </div>
+    
+    <div class="lapbook-cover cover-right">
+      <div class="cover-design">
+        <div class="code-icon">&lt;/&gt;</div>
+        <img src="{{ url_for('static', filename='sql.jpeg')}}" alt="SQL" style="width: 60px; height: auto; margin-bottom: 10px;">
+        <p>Toca para abrir las portadas</p>
+      </div>
+    </div>
+
+    <!-- Contenido Interior Organizado -->
+    <div class="lapbook-inside">
+      <header class="inside-header">
+        <h1>Guía Interactiva de Desarrollo Web</h1>
+        <p class="subtitle">Haz clic en cualquier tarjeta, pestana o elemento para desplegar su definición completa</p>
+      </header>
+
+      <main class="inside-grid">
+        
+        <!-- COLUMNA IZQUIERDA: HTML y Etiquetas -->
+        <div class="column-group">
+          <!-- 1. Ventanillas HTML -->
+          <section class="section-box">
+            <h2>{{ d.html.titulo }}</h2>
+            <div class="windows-grid">
+              {% for puerta in d.html.puertas %}
+              <div class="flip-card">
+                <div class="flip-card-inner">
+                  <div class="flip-card-front">{{ puerta.titulo }}</div>
+                  <div class="flip-card-back">{{ puerta.contenido }}</div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </section>
+
+          <!-- 2. Acordeón Interactivo de Etiquetas -->
+          <section class="section-box">
+            <h2>{{ d.etiquetas.titulo }}</h2>
+            <div class="accordion-list">
+              {% for paso in d.etiquetas.pasos %}
+              <div class="accordion-item">
+                <div class="accordion-header">
+                  <span class="step-num">{{ paso.num }}</span>
+                  <code class="step-tag">{{ paso.etiqueta }}</code>
+                  <span class="arrow">&#9660;</span>
+                </div>
+                <div class="accordion-content">
+                  <p>{{ paso.desc }}</p>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </section>
+        </div>
+
+        <!-- COLUMNA CENTRAL: CSS y Jinja -->
+        <div class="column-group">
+          <!-- 3. Tiras Desplegables de CSS con Definición -->
+          <section class="section-box">
+            <h2>{{ d.css.titulo }}</h2>
+            <div class="css-strips">
+              {% for tira in d.css.tira %}
+              <div class="strip-item">
+                <div class="strip-header">
+                  <span>{{ tira.prop }}</span>
+                  <span class="arrow">&#9660;</span>
+                </div>
+                <div class="strip-details">
+                  <code>{{ tira.sintaxis }}</code>
+                  <p>{{ tira.uso }}</p>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </section>
+
+          <!-- 4. Librito Interactivo de Jinja -->
+          <section class="section-box">
+            <h2>{{ d.jinja.titulo }}</h2>
+            <div class="jinja-container">
+              {% for pagina in d.jinja.paginas %}
+              <div class="jinja-card">
+                <div class="jinja-header">{{ pagina.sub }}</div>
+                <div class="jinja-body">{{ pagina.texto }}</div>
+              </div>
+              {% endfor %}
+            </div>
+          </section>
+        </div>
+
+        <!-- COLUMNA DERECHA: SQL y JavaScript -->
+        <div class="column-group">
+          <!-- 5. Sobre Interactivo de SQL -->
+          <section class="section-box">
+            <h2>{{ d.sql.titulo }}</h2>
+            <div class="sql-envelope">
+              <div class="envelope-flap">{{ d.sql.sobre_info.titulo_sobre }} (Ver comandos)</div>
+              <div class="envelope-content">
+                <p style="white-space: pre-line;">{{ d.sql.sobre_info.contenido }}</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 6. Tarjetas de JavaScript volteables -->
+          <section class="section-box">
+            <h2>{{ d.javascript.titulo }}</h2>
+            <div class="js-grid">
+              {% for cuadro in d.javascript.cuadros %}
+              <div class="js-card">
+                <div class="js-card-header">
+                  <strong>{{ cuadro.titulo }}</strong>
+                  <span class="arrow">&#9660;</span>
+                </div>
+                <div class="js-card-body">
+                  <code>{{ cuadro.detalle }}</code>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </section>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <button id="toggle-lapbook-btn" class="toggle-btn">Abrir / Cerrar Lapbook</button>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
